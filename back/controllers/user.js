@@ -34,24 +34,24 @@ exports.signUp = (request, response) => {
 
 // FUNCTION LOGIN
 exports.login= (request, response) => {
-    //check if user already 
+    //check if user already exists
     User.findOne({
         email: request.body.email,
     })
     .then (user => {
-        if (user ==false){
+        if (!user){
             response.status(401).json({
                 message: "User doesn't exist or Email incorrect"
             })
         }
     bcrypt.compare(request.body.password, user.password) 
     .then (validpassword => {
-        if (validpassword == false)
+        if (!validpassword)
         { response.status(401).json({
             message: "Invalid Password"
         })
         }
-        const token = jwt.sing (
+        const token = jwt.sign (
             {email: user.email, userId: user._id},
             "randomTokenSecret",
             {expiresIn: "2h"}
