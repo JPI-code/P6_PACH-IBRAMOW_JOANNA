@@ -2,7 +2,7 @@
 
 const User = require("../models/User.js")
 const bcrypt = require("bcrypt")
-
+const jwt = require("jsonwebtoken")
 
 
 // FUNCTION SIGNUP
@@ -33,4 +33,44 @@ exports.signUp = (request, response) => {
 
 
 // FUNCTION LOGIN
-
+exports.login= (request, response) => {
+    //check if user already 
+    User.findOne({
+        email: request.body.email,
+    })
+    .then (user => {
+        if (user ==false){
+            response.status(401).json({
+                message: "User doesn't exist or Email incorrect"
+            })
+        }
+    bcrypt.compare(request.body.password, user.password) 
+    .then (validpassword => {
+        if (validpassword == false)
+        { response.status(401).json({
+            message: "Invalid Password"
+        })
+        }
+        const token = jwt.sing (
+            {email: user.email, userId: user._id},
+            "randomTokenSecret",
+            {expiresIn: "2h"}
+        )
+        response.status(200).json({
+            token, 
+            userId: user._id,
+        })
+    })
+    .catch (error => {
+        response.status(500).json({
+            error
+        })
+    })
+        
+    })
+    .catch (error => {
+        response.status(500).json({
+            error
+        })
+    })
+}

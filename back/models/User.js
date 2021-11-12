@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-require('mongoose-type-email');
+// require('mongoose-type-email');
 
 // On rajoute ce validateur comme plugin
 const uniqueValidator = require('mongoose-unique-validator'); // package qui valide l'unicité de l'email
@@ -20,7 +20,10 @@ const userSchema = mongoose.Schema({
   });
 
 
-const User = mg.model("User", userSchema)
+userSchema.plugin(uniqueValidator)
+const User = mongoose.model("User", userSchema)
+
+
 
 // TO EXPORT USER 
 module.exports = User 
