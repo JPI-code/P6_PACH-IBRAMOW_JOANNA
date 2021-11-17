@@ -53,8 +53,8 @@ exports.login= (request, response) => {
         }
         const token = jwt.sign (
             {email: user.email, userId: user._id},
-            "randomTokenSecret",
-            {expiresIn: "2h"}
+            "RANDOM_TOKEN_SECRET",
+            {expiresIn: "24h"}
         )
         response.status(200).json({
             token, 
