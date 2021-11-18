@@ -3,19 +3,30 @@ const fs = require('fs')
 
 exports.createSauce = (req, res, next)=> {
     const sauceProposition = JSON.parse(req.body.sauce);
-    const sauce= new Sauce ({
-userId : sauceProposition.userId,
-name : sauceProposition.name,
-manufacturer : sauceProposition.manufacturer,
-description : sauceProposition.description,
-mainPepper : sauceProposition.mainPepper,
-imageUrl : `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
-heat : sauceProposition.heat,
-likes : 0,
-dislikes : 0,
-usersLiked : [],
-usersDisliked : [],
-    })
+//     const sauce= new Sauce ({
+// userId : sauceProposition.userId,
+// name : sauceProposition.name,
+// manufacturer : sauceProposition.manufacturer,
+// description : sauceProposition.description,
+// mainPepper : sauceProposition.mainPepper,
+// imageUrl : `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+// heat : sauceProposition.heat,
+// likes : 0,
+// dislikes : 0,
+// usersLiked : [],
+// usersDisliked : [],
+//     })
+delete sauceProposition._id;
+  // Création d'une instance du modèle Sauce
+  const sauce = new Sauce({
+    ...sauceProposition,
+    // On modifie l'URL de l'image, on veut l'URL complète, quelque chose dynamique avec les segments de l'URL
+    imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+    likes: 0,
+    dislikes: 0,
+    usersLiked: [],
+    usersDisliked: []
+  });
     sauce.save()
     // On envoi une réponse au frontend avec un statut 201 sinon on a une expiration de la requête
     .then(() => res.status(201).json({
@@ -221,7 +232,7 @@ exports.deleteSauce = (req, res, next) => {
           }
         })
         .catch((error) => res.status(404).json({
-          error
+         error
         }))
     }
   }
