@@ -43,6 +43,7 @@ exports.login= (request, response) => {
             response.status(401).json({
                 message: "User doesn't exist or Email incorrect"
             })
+            return
         }
     bcrypt.compare(request.body.password, user.password) 
     .then (validpassword => {
@@ -50,6 +51,8 @@ exports.login= (request, response) => {
         { response.status(401).json({
             message: "Invalid Password"
         })
+        //to stop function from sending two different http responses
+        return
         }
         const token = jwt.sign (
             {email: user.email, userId: user._id},

@@ -10,7 +10,7 @@ const userRoutes= require("./routes/userRoutes")
 const sauceRoutes= require("./routes/sauceRoutes")
 
 //CONNECTING TO DATABASE
-mongoose.connect("mongodb://localhost:27017/test",
+mongoose.connect("mongodb://localhost:27017/testingDataBase",
 {useNewUrlParser:true})
 .then (()=> console.log("connected to database"))
 .catch (() => console.error("Error in database connection"))
