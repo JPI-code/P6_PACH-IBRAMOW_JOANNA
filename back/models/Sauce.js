@@ -1,8 +1,8 @@
-const mongoose = require('mongoose');
 // require('mongoose-type-email');
+const mongoose = require('mongoose');
 
 
-//SCHEME creation
+//SCHEME creation for a sauce
 const sauceSchema = mongoose.Schema({
     // following the model precise in Specs
     userId: {
@@ -47,8 +47,7 @@ const sauceSchema = mongoose.Schema({
       },
   });
 
-
-
+// MODEL
 const Sauce = mongoose.model("Sauce", sauceSchema)
 
 
