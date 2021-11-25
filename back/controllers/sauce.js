@@ -1,26 +1,15 @@
-// fs check if file exists
+// fs  check if file exists
 const Sauce= require("../models/Sauce")
 const fs = require('fs')
 
 exports.createSauce = (req, res, next)=> {
     const sauceProposition = JSON.parse(req.body.sauce);
-//     const sauce= new Sauce ({
-// userId : sauceProposition.userId,
-// name : sauceProposition.name,
-// manufacturer : sauceProposition.manufacturer,
-// description : sauceProposition.description,
-// mainPepper : sauceProposition.mainPepper,
-// imageUrl : `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
-// heat : sauceProposition.heat,
-// likes : 0,
-// dislikes : 0,
-// usersLiked : [],
-// usersDisliked : [],
-//     })
+
 delete sauceProposition._id;
 // Creation of the new Sauce example following the SAUCE model
 
   const sauce = new Sauce({
+    //sauceProposition correspond to Sauce Model (from Sauce.js) and what the final user input when create new sauce - fornt end creation form
     ...sauceProposition,
     // We modify  image URL to be complete and dymanic 
     imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
